@@ -13,7 +13,7 @@ After you compile the project, you have an executable `./gnl` that you can use t
 I added a Makefile to the project with the following commands:
 - `make` or `make all` : Compile source files and a `./gnl` executable
 - `make clean` : Remove all object files (.o)
-- `make fclean` : Execute clean + remove the library
+- `make fclean` : Execute clean + remove the executable
 - `make re` : Execute fclean + all (full recompilation)
 - `make bonus` : Compile bonus functions (if applicable)
 
