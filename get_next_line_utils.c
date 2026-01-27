@@ -14,7 +14,7 @@
 #include "includes/get_next_line.h"
 #include <unistd.h>
 
-static size_t	ft_strlen(const char *str)
+size_t	ft_strlen(const char *str)
 {
 	size_t	nbr;
 
@@ -54,45 +54,51 @@ char	*ft_strjoin(char *s1, char const *s2)
 	return (result);
 }
 
-int	readfile(char *buffer, int fd)
+void	*ft_memset(void *s, int c, size_t n)
 {
-	int	readcheck;
+	unsigned char	*result;
 
-	readcheck = (int)read(fd, buffer, BUFFER_SIZE);
-	if (readcheck > 0)
-		buffer[readcheck] = '\0';
-	return (readcheck);
+	result = s;
+	while (n--)
+	{
+		*result++ = (unsigned char) c;
+	}
+	return (s);
 }
 
-char	*cutstringwhen_n(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i] != '\n' && line[i] != '\0')
-		i++;
-	if (line[i] == '\n')
-		line[i + 1] = '\0';
-	return (line);
-}
-
-void	decalebuffer(char *buffer)
+char	*ft_strdup(char *src)
 {
 	int		i;
-	char	*newline_ptr;
+	char	*dupli;
 
 	i = 0;
-	newline_ptr = ft_strchr(buffer, '\n');
-	if (newline_ptr)
+	while (src[i] != '\0')
+		i++;
+	dupli = malloc(i * sizeof(char) + 1);
+	if (dupli == NULL)
+		return (NULL);
+	i = 0;
+	while (src[i] != '\0')
 	{
-		newline_ptr++;
-		while (newline_ptr[i])
-		{
-			buffer[i] = newline_ptr[i];
-			i++;
-		}
-		buffer[i] = '\0';
+		dupli[i] = src[i];
+		i++;
 	}
-	else
-		buffer[0] = '\0';
+	dupli[i] = '\0';
+	return (dupli);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	unsigned char	cha;
+
+	cha = (unsigned char)c;
+	while (*s)
+	{
+		if (*s == cha)
+			return ((char *) s);
+		s++;
+	}
+	if (cha == '\0')
+		return ((char *)s);
+	return (NULL);
 }

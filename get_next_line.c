@@ -10,59 +10,49 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "includes/get_next_line.h"
-#include <unistd.h>
-#include <fcntl.h>
 
-void	*ft_memset(void *s, int c, size_t n)
+int	readfile(char *buffer, int fd)
 {
-	unsigned char	*result;
+	int	readcheck;
 
-	result = s;
-	while (n--)
-	{
-		*result++ = (unsigned char) c;
-	}
-	return (s);
+	readcheck = (int)read(fd, buffer, BUFFER_SIZE);
+	if (readcheck > 0)
+		buffer[readcheck] = '\0';
+	return (readcheck);
 }
 
-char	*ft_strdup(char *src)
+char	*cutstringwhen_n(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i] != '\n' && line[i] != '\0')
+		i++;
+	if (line[i] == '\n')
+		line[i + 1] = '\0';
+	return (line);
+}
+
+void	decalebuffer(char *buffer)
 {
 	int		i;
-	char	*dupli;
+	char	*newline_ptr;
 
 	i = 0;
-	while (src[i] != '\0')
-		i++;
-	dupli = malloc(i * sizeof(char) + 1);
-	if (dupli == NULL)
-		return (NULL);
-	i = 0;
-	while (src[i] != '\0')
+	newline_ptr = ft_strchr(buffer, '\n');
+	if (newline_ptr)
 	{
-		dupli[i] = src[i];
-		i++;
+		newline_ptr++;
+		while (newline_ptr[i])
+		{
+			buffer[i] = newline_ptr[i];
+			i++;
+		}
+		buffer[i] = '\0';
 	}
-	dupli[i] = '\0';
-	return (dupli);
-}
-
-char	*ft_strchr(const char *s, int c)
-{
-	unsigned char	cha;
-
-	cha = (unsigned char)c;
-	while (*s)
-	{
-		if (*s == cha)
-			return ((char *) s);
-		s++;
-	}
-	if (cha == '\0')
-		return ((char *)s);
-	return (NULL);
+	else
+		buffer[0] = '\0';
 }
 
 char	*read_until_newline(int fd, char *buffer, int *readcheck)
@@ -106,32 +96,35 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-// int main ()
-// {
-// 	int fd;
-// 	char *test;
-// 	fd = 0;
-// 	fd = open("test.txt", O_RDONLY);
-// //get_next_line(fd);
+int	main(int argc, char **argv)
+{
+	int		fd;
+	char	*test;
 
-// 	test = get_next_line(fd);
-// 	printf("1 :%s",test);
-// 	free(test);
-// 	test = get_next_line(fd);
-// 	printf("2 :%s",test);
-// 	free(test);
-// 	test = get_next_line(fd);
-// 	printf("3 :%s",test);
-// 	free(test);
-// 	test = get_next_line(fd);
-// 	printf("4 :%s",test);
-// 	free(test);
-// 	test = get_next_line(fd);
-// 	printf("5 :%s",test);
-// 	free(test);
-// 	test = get_next_line(fd);
-// 	printf("6 :%s",test);
-// 	free(test);
-
-// 	close(fd);
-// }
+	if (argc > 2)
+	{
+		printf("./get_next_line <filename>");
+		return (1);
+	}
+	fd = open(argv[1], O_RDONLY);
+	test = get_next_line(fd);
+	printf("1 :%s", test);
+	free(test);
+	test = get_next_line(fd);
+	printf("2 :%s", test);
+	free(test);
+	test = get_next_line(fd);
+	printf("3 :%s", test);
+	free(test);
+	test = get_next_line(fd);
+	printf("4 :%s", test);
+	free(test);
+	test = get_next_line(fd);
+	printf("5 :%s", test);
+	free(test);
+	test = get_next_line(fd);
+	printf("6 :%s", test);
+	free(test);
+	close(fd);
+	return (0);
+}
