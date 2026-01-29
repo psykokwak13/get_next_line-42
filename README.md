@@ -6,7 +6,7 @@ get_next_line is a project from the 42 common core curriculum. The goal is to cr
 ## How to use
 After you compile the project, you have an executable `./gnl` that you can use to test the function. You have to use it like this :
 ```bash
-./gnl 
+./gnl <filename>
 ```
 
 ## Makefile
